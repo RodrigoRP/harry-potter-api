@@ -1,7 +1,6 @@
 package com.rodrigorp.harrypotterapi.controller.exception;
 
 import com.rodrigorp.harrypotterapi.service.exception.ObjectNotFoundException;
-import lombok.extern.log4j.Log4j;
 import org.springframework.core.codec.DecodingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

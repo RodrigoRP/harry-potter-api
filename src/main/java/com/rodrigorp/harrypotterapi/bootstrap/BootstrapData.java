@@ -2,7 +2,6 @@ package com.rodrigorp.harrypotterapi.bootstrap;
 
 import com.rodrigorp.harrypotterapi.model.CharacterHP;
 import com.rodrigorp.harrypotterapi.repository.CharacterRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
