@@ -5,8 +5,6 @@ import com.rodrigorp.harrypotterapi.model.PotterApi;
 import com.rodrigorp.harrypotterapi.repository.CharacterRepository;
 import com.rodrigorp.harrypotterapi.service.CharacterService;
 import com.rodrigorp.harrypotterapi.service.exception.ObjectNotFoundException;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
