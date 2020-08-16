@@ -4,29 +4,34 @@ import com.rodrigorp.harrypotterapi.controller.CharacterController;
 import com.rodrigorp.harrypotterapi.dto.CharacterNewDTO;
 import com.rodrigorp.harrypotterapi.mapper.CharacterMapper;
 import com.rodrigorp.harrypotterapi.model.CharacterHP;
+import com.rodrigorp.harrypotterapi.model.PotterApi;
 import com.rodrigorp.harrypotterapi.service.CharacterService;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/characters")
+@RequestMapping("/api/v1")
 public class CharacterControllerImpl implements CharacterController {
 
     private final CharacterService characterService;
+    private final Environment environment;
     private final CharacterMapper mapper;
 
-    public CharacterControllerImpl(CharacterService characterService, CharacterMapper mapper) {
+    public CharacterControllerImpl(CharacterService characterService, CharacterMapper mapper, Environment environment) {
         this.characterService = characterService;
+        this.environment = environment;
         this.mapper = mapper;
     }
 
     @Override
-    @PostMapping("/")
+    @PostMapping("/characters/")
     public ResponseEntity<Void> save(@Valid @RequestBody CharacterNewDTO characterNewDTO) {
         CharacterHP characterHP = mapper.toModel(characterNewDTO);
         characterHP = characterService.save(characterHP);
@@ -38,30 +43,43 @@ public class CharacterControllerImpl implements CharacterController {
     }
 
     @Override
-    @GetMapping("/{id}")
-    public ResponseEntity<CharacterHP> findById(@PathVariable("id") Long id) {
-        CharacterHP characterHP = characterService.findById(id);
+    @GetMapping("/characters/{characterId}")
+    public ResponseEntity<CharacterHP> findById(@PathVariable("characterId") Long characterId) {
+        CharacterHP characterHP = characterService.findById(characterId);
         return ResponseEntity.ok().body(characterHP);
     }
 
     @Override
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/characters/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         characterService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @Override
-    @GetMapping("/")
+    @GetMapping("/characters/")
     public ResponseEntity<List<CharacterHP>> findAll() {
         List<CharacterHP> charactersHP = characterService.findAll();
         return ResponseEntity.ok().body(charactersHP);
     }
 
     @Override
-    @GetMapping("/houses/{id}")
-    public ResponseEntity<List<CharacterHP>> findAllByHouse(@PathVariable("id") String id) {
-        List<CharacterHP> charactersHP = characterService.findAllByHouse(id);
+    @GetMapping("/characters")
+    public ResponseEntity<List<CharacterHP>> findAllByHouse(@RequestParam("houseId") String houseId) {
+        List<CharacterHP> charactersHP = characterService.findAllByHouse(houseId);
         return ResponseEntity.ok().body(charactersHP);
     }
+
+    @GetMapping("/potterapi/houses/{houseId}")
+    public ResponseEntity<Mono<PotterApi[]>> findHouseById(@PathVariable String houseId) {
+        String apiKey = environment.getProperty("app.api.key");
+        Mono<PotterApi[]> character = characterService.searchHouseById(apiKey, houseId);
+        return ResponseEntity.ok().body(character);
+    }
+
+  /*  @GetMapping("/characters")
+    public ResponseEntity<List<CharacterHP>> findAllByHouseId(@RequestParam("house") String houseId) {
+        List<CharacterHP> charactersHP = characterService.findAllByHouse(houseId);
+        return ResponseEntity.ok().body(charactersHP);
+    }*/
 }

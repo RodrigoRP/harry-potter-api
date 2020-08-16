@@ -1,6 +1,8 @@
 package com.rodrigorp.harrypotterapi.controller.exception;
 
 import com.rodrigorp.harrypotterapi.service.exception.ObjectNotFoundException;
+import lombok.extern.log4j.Log4j;
+import org.springframework.core.codec.DecodingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -30,4 +32,13 @@ public class ControllerExceptionHandler {
         }
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(err);
     }
+
+    @ExceptionHandler(DecodingException.class)
+    public ResponseEntity<StandardError> objectNotFoundApi(DecodingException e, HttpServletRequest request) {
+        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(),
+                "House not found", "House not found", request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+    }
+
+
 }

@@ -23,7 +23,7 @@ public interface CharacterController {
     @ApiOperation("Find all Characters")
     ResponseEntity<List<CharacterHP>> findAll();
 
-    @ApiOperation("Find all Characters by id House")
+    @ApiOperation("Find all Characters by id House from PotterAPI")
     ResponseEntity<List<CharacterHP>> findAllByHouse(String id);
 
 
