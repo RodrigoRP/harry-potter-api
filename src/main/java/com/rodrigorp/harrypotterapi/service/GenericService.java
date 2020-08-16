@@ -12,5 +12,5 @@ public interface GenericService<E, M> {
 
     List<E> findAll();
 
-    E update(E entity, M id);
+    //E update(E entity, M id);
 }

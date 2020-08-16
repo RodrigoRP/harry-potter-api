@@ -1,10 +1,12 @@
 package com.rodrigorp.harrypotterapi.service.impl;
 
+import com.rodrigorp.harrypotterapi.dto.CharacterUpdateDto;
 import com.rodrigorp.harrypotterapi.model.CharacterHP;
 import com.rodrigorp.harrypotterapi.model.PotterApi;
 import com.rodrigorp.harrypotterapi.repository.CharacterRepository;
 import com.rodrigorp.harrypotterapi.service.CharacterService;
 import com.rodrigorp.harrypotterapi.service.exception.ObjectNotFoundException;
+import com.rodrigorp.harrypotterapi.service.utils.JsonNullableUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -47,8 +49,15 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public CharacterHP update(CharacterHP entity, Long id) {
-        return null;
+    public CharacterHP update(CharacterUpdateDto characterUpdateDto, Long id) {
+        CharacterHP characterHP = findById(id);
+
+        JsonNullableUtils.changeIfPresent(characterUpdateDto.getName(), characterHP::setName);
+        JsonNullableUtils.changeIfPresent(characterUpdateDto.getPatronus(), characterHP::setPatronus);
+        JsonNullableUtils.changeIfPresent(characterUpdateDto.getRole(), characterHP::setRole);
+        JsonNullableUtils.changeIfPresent(characterUpdateDto.getSchool(), characterHP::setSchool);
+
+        return repository.save(characterHP);
     }
 
     @Override

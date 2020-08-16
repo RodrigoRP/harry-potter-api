@@ -1,5 +1,6 @@
 package com.rodrigorp.harrypotterapi.service;
 
+import com.rodrigorp.harrypotterapi.dto.CharacterUpdateDto;
 import com.rodrigorp.harrypotterapi.model.CharacterHP;
 import com.rodrigorp.harrypotterapi.repository.CharacterRepository;
 import com.rodrigorp.harrypotterapi.service.exception.ObjectNotFoundException;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,5 +133,35 @@ class CharacterServiceTest {
 
         //then
         then(characterRepository).should(times(2)).deleteById(1L);
+    }
+
+    @Test
+    @DisplayName("Test update Success")
+    void updateByIdTest() {
+        //given
+        CharacterHP characterHP = new CharacterHP(1L, "Harry Potter", "student",
+                "Hogwarts School of Witchcraft and Wizardry", "5a05e2b252f721a3cf2ea33f", "stag");
+        CharacterUpdateDto characterUpdateDto = new CharacterUpdateDto();
+        characterUpdateDto.setName(JsonNullable.of("Ronaldo"));
+
+        given(characterRepository.findById(1L)).willReturn(Optional.of(characterHP));
+
+        //when
+        characterService.update(characterUpdateDto, 1L);
+        CharacterHP updatedCharacterHP = characterService.findById(1L);
+
+        //then
+        Assertions.assertEquals("Ronaldo", characterHP.getName());
+        Assertions.assertEquals(characterHP, updatedCharacterHP);
+    }
+
+    @Test
+    @DisplayName("Test update Character Not Found Id")
+    void updateByIdNotFoundTest() {
+        Exception exception = assertThrows(
+                ObjectNotFoundException.class,
+                () -> characterService.findById(22L));
+
+        Assertions.assertTrue(exception.getMessage().contains("not found"));
     }
 }

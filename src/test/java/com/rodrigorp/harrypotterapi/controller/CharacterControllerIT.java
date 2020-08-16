@@ -11,17 +11,13 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CharacterControllerIT {
 
     @LocalServerPort
     private int port;
-
-    @Autowired
-    private CharacterServiceImpl characterService;
 
     @BeforeEach
     void setUp() {
@@ -134,7 +130,7 @@ class CharacterControllerIT {
                 .get("/potterapi/houses/{houseId}")
                 .then()
                 .statusCode(HttpStatus.OK.value())
-                .body("name", contains("Gryffindor"));
+                .body("name", hasItems("Gryffindor"));
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.rodrigorp.harrypotterapi.controller.impl;
 
 import com.rodrigorp.harrypotterapi.controller.CharacterController;
 import com.rodrigorp.harrypotterapi.dto.CharacterNewDTO;
+import com.rodrigorp.harrypotterapi.dto.CharacterUpdateDto;
 import com.rodrigorp.harrypotterapi.mapper.CharacterMapper;
 import com.rodrigorp.harrypotterapi.model.CharacterHP;
 import com.rodrigorp.harrypotterapi.model.PotterApi;
@@ -54,6 +55,12 @@ public class CharacterControllerImpl implements CharacterController {
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         characterService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/characters/{id}")
+    public ResponseEntity<CharacterHP> update(@PathVariable("id") Long id, @RequestBody CharacterUpdateDto characterUpdateDto) {
+        CharacterHP updatedCharacter = characterService.update(characterUpdateDto, id);
+        return ResponseEntity.ok().body(updatedCharacter);
     }
 
     @Override
