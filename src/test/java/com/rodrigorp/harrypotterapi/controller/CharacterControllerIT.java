@@ -1,11 +1,10 @@
 package com.rodrigorp.harrypotterapi.controller;
 
-import com.rodrigorp.harrypotterapi.service.impl.CharacterServiceImpl;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -100,6 +99,26 @@ class CharacterControllerIT {
     }
 
     @Test
+    void should_return_Status_422_When_Create_Character () {
+        String characterNew = "{\n" +
+                "    \"name\": \"Hannah Abbott\",\n" +
+                "    \"role\": \"student\",\n" +
+                "    \"school\": \"Hogwarts School of Witchcraft and Wizardry\",\n" +
+                "    \"house\": \"5a05e2b252f721a3cf2ea33f\",\n" +
+                "    \"patronus\": \"stag\"\n" +
+                "}";
+
+        given()
+                .body(characterNew)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .when()
+                .post("/characters/")
+                .then()
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
+    }
+
+    @Test
     void should_return_204_when_deleteByID() {
         given()
                 .accept(ContentType.JSON)
@@ -142,5 +161,21 @@ class CharacterControllerIT {
                 .get("/potterapi/houses/{houseId}")
                 .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
+    @Test
+    void should_Return_200_When_Update_Character() {
+        String characterUpdated = "{\n" +
+                "  \"name\": \"Ronaldo Assis\"\n" +
+                "}";
+        given()
+                .body(characterUpdated)
+                .contentType(ContentType.JSON)
+                .pathParam("id", 2)
+                .when()
+                .patch("/characters/{id}")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("name", equalTo("Ronaldo Assis"));
     }
 }

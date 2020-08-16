@@ -57,6 +57,7 @@ public class CharacterControllerImpl implements CharacterController {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
     @PatchMapping("/characters/{id}")
     public ResponseEntity<CharacterHP> update(@PathVariable("id") Long id, @RequestBody CharacterUpdateDto characterUpdateDto) {
         CharacterHP updatedCharacter = characterService.update(characterUpdateDto, id);
