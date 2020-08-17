@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-@Profile("test")
+@Profile({"test"})
 @Component
 public class BootstrapData implements CommandLineRunner {
 

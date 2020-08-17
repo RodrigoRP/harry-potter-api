@@ -5,8 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @NoArgsConstructor
@@ -14,8 +15,10 @@ import java.io.Serializable;
 @Data
 @CharacterInsert
 public class CharacterNewDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "Name cannot be null")
+    @NotEmpty(message = "Required field")
+    @Length(min = 3, max = 50, message = "The length must be between 5 and 120 characters")
     private String name;
 
     private String role;

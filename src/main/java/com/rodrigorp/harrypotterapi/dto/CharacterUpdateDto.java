@@ -7,12 +7,14 @@ import lombok.Setter;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class CharacterUpdateDto {
+public class CharacterUpdateDto implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @NotNull
     private JsonNullable<String> name = JsonNullable.undefined();

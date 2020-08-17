@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -68,18 +69,7 @@ class CharacterControllerIT {
     }
 
     @Test
-    void should_return_404_getAllByHouseID() {
-        given()
-                .pathParam("id", 99)
-                .accept(ContentType.JSON)
-                .when()
-                .get("/characters?houseId={id}")
-                .then()
-                .statusCode(HttpStatus.NOT_FOUND.value());
-    }
-
-    @Test
-    void should_return_Status_201_When_Create_Character () {
+    void should_return_Status_201_When_Create_Character() {
         String characterNew = "{\n" +
                 "    \"name\": \"Harry Potter junior\",\n" +
                 "    \"role\": \"student\",\n" +
@@ -99,7 +89,7 @@ class CharacterControllerIT {
     }
 
     @Test
-    void should_return_Status_422_When_Create_Character () {
+    void should_return_Status_422_When_Create_Character() {
         String characterNew = "{\n" +
                 "    \"name\": \"Hannah Abbott\",\n" +
                 "    \"role\": \"student\",\n" +

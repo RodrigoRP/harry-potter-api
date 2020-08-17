@@ -101,7 +101,7 @@ class CharacterServiceTest {
                 "Hogwarts School of Witchcraft and Wizardry", "5a05e2b252f721a3cf2ea33f", "stag");
         List<CharacterHP> characterHPList = new ArrayList<>();
         characterHPList.add(characterHP);
-        given(characterRepository.findAllByHouse("5a05e2b252f721a3cf2ea33f")).willReturn(Optional.of(characterHPList));
+        given(characterRepository.findAllByHouse("5a05e2b252f721a3cf2ea33f")).willReturn(characterHPList);
 
         //when
         List<CharacterHP> returnedList = characterService.findAllByHouse("5a05e2b252f721a3cf2ea33f");
@@ -109,16 +109,6 @@ class CharacterServiceTest {
         //then
         Assertions.assertEquals(characterHPList, returnedList);
         then(characterRepository).should().findAllByHouse("5a05e2b252f721a3cf2ea33f");
-    }
-
-    @Test
-    @DisplayName("Test findAll Not Found HouseId")
-    void findAllCharactersByHouseIdNotFoundTest() {
-        Exception exception = assertThrows(
-                ObjectNotFoundException.class,
-                () -> characterService.findAllByHouse("36712h"));
-
-        Assertions.assertTrue(exception.getMessage().contains("not found"));
     }
 
     @Test

@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface CharacterRepository extends JpaRepository<CharacterHP, Long> {
 
-    Optional<List<CharacterHP>> findAllByHouse(String id);
+    List<CharacterHP> findAllByHouse(String id);
 
     Optional<CharacterHP> findByName(String name);
 }

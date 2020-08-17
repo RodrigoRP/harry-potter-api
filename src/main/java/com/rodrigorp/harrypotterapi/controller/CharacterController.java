@@ -3,11 +3,11 @@ package com.rodrigorp.harrypotterapi.controller;
 import com.rodrigorp.harrypotterapi.dto.CharacterNewDTO;
 import com.rodrigorp.harrypotterapi.dto.CharacterUpdateDto;
 import com.rodrigorp.harrypotterapi.model.CharacterHP;
+import com.rodrigorp.harrypotterapi.model.PotterApi;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -26,11 +26,13 @@ public interface CharacterController {
     @ApiOperation("Find all Characters")
     ResponseEntity<List<CharacterHP>> findAll();
 
-    @ApiOperation("Find all Characters by id House from PotterAPI")
+    @ApiOperation("Find all Characters by HouseID")
     ResponseEntity<List<CharacterHP>> findAllByHouse(String id);
 
     @ApiOperation("Update Character by Id")
     ResponseEntity<CharacterHP> update(Long id, CharacterUpdateDto characterUpdateDto);
 
+    @ApiOperation("Find Characters Name by HouseID from https://www.potterapi.com/")
+    ResponseEntity<Mono<PotterApi[]>> findHouseById(String houseId);
 
 }

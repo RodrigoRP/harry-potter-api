@@ -7,6 +7,9 @@ import com.rodrigorp.harrypotterapi.repository.CharacterRepository;
 import com.rodrigorp.harrypotterapi.service.CharacterService;
 import com.rodrigorp.harrypotterapi.service.exception.ObjectNotFoundException;
 import com.rodrigorp.harrypotterapi.service.utils.JsonNullableUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -26,17 +29,20 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
+    @CacheEvict(cacheNames = "characters", allEntries = true)
     public CharacterHP save(CharacterHP entity) {
         return repository.save(entity);
     }
 
     @Override
+    @CacheEvict(cacheNames = "characters", key = "#id")
     public void deleteById(Long id) {
         findById(id);
         repository.deleteById(id);
     }
 
     @Override
+    @Cacheable(cacheNames = "characters", key = "#id")
     public CharacterHP findById(Long id) {
         Optional<CharacterHP> characterHP = repository.findById(id);
         return characterHP.orElseThrow(() -> new ObjectNotFoundException(
@@ -44,11 +50,13 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
+    @Cacheable(cacheNames = "characters", key = "#root.method.name")
     public List<CharacterHP> findAll() {
         return repository.findAll();
     }
 
     @Override
+    @CachePut(cacheNames = "characters", key = "#id")
     public CharacterHP update(CharacterUpdateDto characterUpdateDto, Long id) {
         CharacterHP characterHP = findById(id);
 
@@ -61,10 +69,9 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
+    @Cacheable(cacheNames = "characters", key = "#id")
     public List<CharacterHP> findAllByHouse(String id) {
-        Optional<List<CharacterHP>> houseList = repository.findAllByHouse(id);
-        return houseList.orElseThrow(() -> new ObjectNotFoundException(
-                "House not found!  Id: " + id + ", Tipo: " + CharacterHP.class.getName()));
+        return repository.findAllByHouse(id);
     }
 
     @Override

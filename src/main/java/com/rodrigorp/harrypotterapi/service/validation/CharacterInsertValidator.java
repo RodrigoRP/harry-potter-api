@@ -44,9 +44,6 @@ public class CharacterInsertValidator implements ConstraintValidator<CharacterIn
         if (characterByName.isPresent()) {
             list.add(new FieldMessage("name", "Character already registered"));
         }
-        /*mono.map(potterApis -> {
-            return Arrays.stream(potterApis).findAny().get().getName().isEmpty();
-        }).block();*/
         mono.block();
 
         for (FieldMessage e : list) {

@@ -78,6 +78,7 @@ public class CharacterControllerImpl implements CharacterController {
         return ResponseEntity.ok().body(charactersHP);
     }
 
+    @Override
     @GetMapping("/potterapi/houses/{houseId}")
     public ResponseEntity<Mono<PotterApi[]>> findHouseById(@PathVariable String houseId) {
         String apiKey = environment.getProperty("app.api.key");
@@ -85,9 +86,4 @@ public class CharacterControllerImpl implements CharacterController {
         return ResponseEntity.ok().body(character);
     }
 
-  /*  @GetMapping("/characters")
-    public ResponseEntity<List<CharacterHP>> findAllByHouseId(@RequestParam("house") String houseId) {
-        List<CharacterHP> charactersHP = characterService.findAllByHouse(houseId);
-        return ResponseEntity.ok().body(charactersHP);
-    }*/
 }
