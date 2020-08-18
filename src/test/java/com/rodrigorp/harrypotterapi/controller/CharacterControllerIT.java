@@ -68,6 +68,16 @@ class CharacterControllerIT {
     }
 
     @Test
+    void should_return_400_getAllByHouseIDParams() {
+        given()
+                .accept(ContentType.JSON)
+                .when()
+                .get("/characters")
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value());
+    }
+
+    @Test
     void should_return_Status_201_When_Create_Character() {
         String characterNew = "{\n" +
                 "    \"name\": \"Harry Potter junior\",\n" +
