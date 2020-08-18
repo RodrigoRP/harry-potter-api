@@ -1,8 +1,8 @@
 package com.rodrigorp.harrypotterapi.config;
 
-import org.springframework.context.annotation.Configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openapitools.jackson.nullable.JsonNullableModule;
+import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 
