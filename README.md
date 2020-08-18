@@ -180,13 +180,13 @@ mvn integration-test
 
 ### Run
 
-In order to run the API as following:
+In order to run the API First yout need to run Redis as following:
 
 ```bash
 docker start redis
 ```
     
-or
+and
 
 ```bash
 mvn spring-boot:run
