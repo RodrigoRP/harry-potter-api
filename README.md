@@ -133,6 +133,7 @@ This project was developed with:
 
 * **Java 8**
 * **Spring Boot 2.3.3**
+* **Circle CI**
 * **H2**
 * **Maven**
 * **JUnit**
