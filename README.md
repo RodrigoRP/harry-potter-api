@@ -133,6 +133,7 @@ This project was developed with:
 
 * **Java 8**
 * **Spring Boot 2.3.3**
+* **Circle CI**
 * **H2**
 * **Maven**
 * **JUnit**
@@ -180,13 +181,13 @@ mvn integration-test
 
 ### Run
 
-In order to run the API as following:
+In order to run the API First yout need to run Redis as following:
 
 ```bash
 docker start redis
 ```
     
-or
+and
 
 ```bash
 mvn spring-boot:run
