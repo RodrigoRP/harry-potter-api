@@ -190,14 +190,14 @@ docker start redis
 and
 
 ```bash
-mvn spring-boot:run
+mvnw spring-boot:run
 ```
 
 By default, the API will be available at [http://localhost:8080/api/v1](http://localhost:8080/api/v1/)
 
 ### Documentation
 
-* Swagger : http://localhost:8080/swagger-ui/index.html
+* Swagger : http://localhost:8080/swagger-ui.html
 
 
 
